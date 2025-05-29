@@ -1,0 +1,94 @@
+{% extends 'store/base.html' %}
+{% block title %}Жеңілдіктегі өнімдер{% endblock %}
+
+{% block content %}
+<div class="container py-5 animate__animated animate__fadeIn">
+    <h2 class="fw-bold mb-4 text-center text-gradient">
+        🏷️ Жеңілдіктегі өнімдер
+    </h2>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for product in products %}
+        <div class="col">
+            <div class="card h-100 border-0 shadow-lg rounded-4 position-relative bg-white hover-card">
+                {% if product.image %}
+                <div class="position-relative overflow-hidden">
+                    <img src="{{ product.image.url }}" class="card-img-top product-img" alt="{{ product.name }}">
+                    {% if product.old_price %}
+                    <span class="badge bg-danger position-absolute top-0 start-0 m-2 px-3 py-2 fs-6 rounded-pill shadow">
+                        -{{ product.discount_percent }}%
+                    </span>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title fw-semibold">{{ product.name }}</h5>
+                    <p class="text-muted small">{{ product.description|truncatechars:90 }}</p>
+
+                    <div class="mt-auto d-flex justify-content-between align-items-center">
+                        <div>
+                            {% if product.old_price %}
+                            <div class="text-muted text-decoration-line-through small">₸{{ product.old_price }}</div>
+                            {% endif %}
+                            <div class="text-danger fw-bold fs-5">₸{{ product.price }}</div>
+                        </div>
+
+                        <a href="{% url 'add_to_cart' product.id %}" class="btn btn-sm btn-gradient rounded-pill shadow">
+                            <i class="bi bi-cart-plus me-1"></i> Себетке қосу
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .text-gradient {
+        background: linear-gradient(90deg, #4f46e5, #3b82f6);
+        -webkit-background-clip: text;
+background-clip: text;
+
+        -webkit-text-fill-color: transparent;
+    }
+
+    .product-img {
+        height: 200px;
+        object-fit: contain;
+        transition: transform 0.4s ease;
+        background: #f8fafc;
+        padding: 10px;
+    }
+
+    .card:hover .product-img {
+        transform: scale(1.05);
+    }
+
+    .hover-card {
+        transition: all 0.3s ease;
+    }
+
+    .hover-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .btn-gradient {
+        background: linear-gradient(135deg, #ef4444, #f97316);
+        color: #fff;
+        border: none;
+        transition: all 0.3s ease;
+    }
+
+    .btn-gradient:hover {
+        background: linear-gradient(135deg, #dc2626, #ea580c);
+        transform: scale(1.05);
+    }
+
+    body {
+        background-color: #f1f5f9;
+    }
+</style>
+{% endblock %}

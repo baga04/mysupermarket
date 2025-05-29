@@ -1,0 +1,22 @@
+{% extends 'store/base.html' %}
+{% block title %}Себет{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="fw-bold mb-4">🛒 Сіздің себетіңіз</h2>
+
+    {% if products %}
+    <ul class="list-group mb-4">
+        {% for product in products %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            {{ product.name }} — ₸{{ product.price }}
+            <a href="{% url 'remove_from_cart' product.id %}" class="btn btn-sm btn-outline-danger">Өшіру</a>
+        </li>
+        {% endfor %}
+    </ul>
+    <a href="#" class="btn btn-success">✅ Тапсырысты рәсімдеу</a>
+    {% else %}
+    <p>Себетіңіз бос.</p>
+    {% endif %}
+</div>
+{% endblock %}
